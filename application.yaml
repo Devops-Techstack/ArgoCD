@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+#default is the built-in project that all Argo CD installations have by default.
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Devops-Techstack/ArgoCD.gits
+    targetRevision: HEAD
+    path: dev
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: myapp
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
+#Argo CD will automatically revert any changes made directly in the cluster
+#Argo CD will delete (prune) resources from the cluster that are no longer defined in Git.
