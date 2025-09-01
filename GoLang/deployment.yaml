@@ -1,0 +1,23 @@
+ # go-app-deployment.yaml
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: go-app-deployment # Name of your Deployment
+   labels:
+     app: go-app           # Label for the Deployment
+ spec:
+   replicas: 2             # Number of desired pods 
+   selector:
+     matchLabels:
+       app: go-app         # Selector to find pods managed by this Deployment
+   template:
+     metadata:
+       labels:
+         app: go-app       # Labels applied to the pods created by this Deployment
+     spec:
+       containers:
+       - name: go-app-container # Name of the container within the pod
+         image: kritikajha94/go-web-app # <--- REPLACE THIS with your actual image
+         imagePullPolicy: IfNotPresent # Or Always, if you want to always pull the latest
+         ports:
+         - containerPort: 8080 # The port your Go app listens on (from EXPOSE in Dockerfile)
